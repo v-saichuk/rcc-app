@@ -7,7 +7,8 @@
 -   Install expo app from AppStore.
 -   Scan the camera QR code.
 -   Enjoy =)
-    ![RCC](https://github.com/v-saichuk/rcc-app/raw/master/gitScreenshot/qr.png)
+
+![RCC](https://github.com/v-saichuk/rcc-app/raw/master/gitScreenshot/qr.png)
 
 # Technologies
 

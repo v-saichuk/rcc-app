@@ -2,6 +2,10 @@
 
 ![RCC](https://github.com/v-saichuk/rcc-app/raw/master/gitScreenshot/Screen.png)
 
+# View the web version of this project
+
+[Web version](https://apps.apple.com/ru/app/expo-go/id982107779?platform=iphone)
+
 # Run on IOS
 
 1. Install [expo app](https://apps.apple.com/ru/app/expo-go/id982107779?platform=iphone) from AppStore.
@@ -14,7 +18,7 @@
 # Start development
 
 1. Install Expo globally
-2. Launch on project (yarn start)
+2. Launch project (yarn start)
 
 # Technologies
 

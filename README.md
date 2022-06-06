@@ -4,8 +4,8 @@
 
 # View the web version of this project
 
-[Web version git](https://github.com/v-saichuk/rcc-web)
-[Web version site](https://v-saichuk.github.io/rcc-web-page/)
+-   [Web version git](https://github.com/v-saichuk/rcc-web)
+-   [Web version site](https://v-saichuk.github.io/rcc-web-page/)
 
 # Run on IOS
 

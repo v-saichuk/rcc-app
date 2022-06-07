@@ -66,3 +66,4 @@ const CourseSlice = createSlice({
 });
 
 export default CourseSlice.reducer;
+export const { onRefresh } = CourseSlice.actions;

@@ -1,9 +1,9 @@
-import { FC, useEffect } from 'react';
-import { View } from 'react-native';
+import { FC, useEffect, useCallback } from 'react';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { onChangeIhave } from '../../store/Slices/CalculatorSlice';
 import { getCourse } from '../../store/Slices/CourseSlice';
 import { getCyrrencyInfo } from '../../store/Slices/CurrencyInfo';
-import { getCurrencyList } from '../../store/Slices/CurrencyListSlice';
+import { getCurrencyList, onRefresh } from '../../store/Slices/CurrencyListSlice';
 import { useAppDispatch, useAppSelector } from '../../store/storeHooks';
 import { ConverterBox } from '../ConverterBox/ConverterBox';
 import { ConverterInfo } from '../ConverterInfo/ConverterInfo';
@@ -15,7 +15,9 @@ const DATE = new Date().toLocaleDateString().split(/[.\/]/g).reverse().join('-')
 
 export const Main: FC = () => {
     const dispatch = useAppDispatch();
-    const { cyrrencyList, defaultValue } = useAppSelector((state) => state.CurrencyListSlice);
+    const { cyrrencyList, defaultValue, refreshing } = useAppSelector(
+        (state) => state.CurrencyListSlice,
+    );
     const { course } = useAppSelector((state) => state.CourseSlice);
     const { iHaveCount, iWillGetCount } = useAppSelector((state) => state.CalculatorSlice);
 
@@ -50,25 +52,40 @@ export const Main: FC = () => {
         );
     }, []);
 
+    const handleRefreshs = useCallback(() => {
+        dispatch(onRefresh());
+        dispatch(getCurrencyList());
+    }, []);
+
     return (
-        <View style={styles.main}>
-            <ConverterBox
-                title="Currency i Have"
-                desc="I have this much exchange"
-                defaultValue={defaultValue.iHave}
-                dataCyrrencyList={cyrrencyList}
-                course={course}
-                valueCount={iHaveCount}
-            />
-            <ConverterBox
-                title="Current i want"
-                desc="I want to buy something at this price"
-                defaultValue={defaultValue.iWillGet}
-                dataCyrrencyList={cyrrencyList}
-                course={course}
-                valueCount={iWillGetCount}
-            />
-            <ConverterInfo />
-        </View>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+                <RefreshControl
+                    tintColor={'#fff'}
+                    refreshing={refreshing}
+                    onRefresh={handleRefreshs}
+                />
+            }>
+            <View style={styles.main}>
+                <ConverterBox
+                    title="Currency i Have"
+                    desc="I have this much exchange"
+                    defaultValue={defaultValue.iHave}
+                    dataCyrrencyList={cyrrencyList}
+                    course={course}
+                    valueCount={iHaveCount}
+                />
+                <ConverterBox
+                    title="Current i want"
+                    desc="I want to buy something at this price"
+                    defaultValue={defaultValue.iWillGet}
+                    dataCyrrencyList={cyrrencyList}
+                    course={course}
+                    valueCount={iWillGetCount}
+                />
+                <ConverterInfo />
+            </View>
+        </ScrollView>
     );
 };

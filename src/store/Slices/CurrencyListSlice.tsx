@@ -6,6 +6,7 @@ interface ICyrrencyList {
 
 interface ICurrencyListSlice {
     isLoading: boolean;
+    refreshing: boolean;
     error: string | null | unknown;
     cyrrencyList: ICyrrencyList[];
     defaultValue: {
@@ -33,6 +34,7 @@ export const getCurrencyList = createAsyncThunk<
 
 const initialState: ICurrencyListSlice = {
     isLoading: false,
+    refreshing: false,
     error: null,
     defaultValue: {
         iHave: 'USD',
@@ -51,6 +53,9 @@ const CurrencyListSlice = createSlice({
         onIwillGet: (state, action) => {
             state.defaultValue.iWillGet = action.payload;
         },
+        onRefresh: (state) => {
+            state.refreshing = true;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -60,16 +65,18 @@ const CurrencyListSlice = createSlice({
             })
             .addCase(getCurrencyList.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.refreshing = false;
                 state.cyrrencyList = action.payload
                     .sort((a: any, b: any) => (a.group > b.group ? -1 : 1))
                     .map((el) => el.code);
             })
             .addCase(getCurrencyList.rejected, (state, action) => {
                 state.isLoading = false;
+                state.refreshing = false;
                 state.error = action.payload;
             });
     },
 });
 
 export default CurrencyListSlice.reducer;
-export const { onIHave, onIwillGet } = CurrencyListSlice.actions;
+export const { onIHave, onIwillGet, onRefresh } = CurrencyListSlice.actions;
